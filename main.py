@@ -45,6 +45,6 @@ def out(message):
         bot.send_message(message.chat.id, f'Продажа: {token.check()[0]}\nОбъём: {token.check()[1]}\nПокупка: {token.check()[2]}\nОбъём покупки: {token.check()[3]}\n',parse_mode='html',reply_markup=markup1)
     except BaseException:
         bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
-
+#Edited
 
 bot.polling(none_stop=True)
