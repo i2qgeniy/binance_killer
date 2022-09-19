@@ -40,12 +40,13 @@ def cup(message):
 def out(message):
     markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
     markup1.add(btn1, btn2, btn3, btn4)
-   # try:
-    token=binance_script.Start_interface(message.chat.id,message.text)
-    bot.send_message(message.chat.id, str(token.info()))
-    info=token.check()
-    bot.send_message(message.chat.id, f'Продажа: {info[0]}\nОбъём: {info[1]}\nПокупка: {info[2]}\nОбъём покупки: {info[3]}\n',parse_mode='html',reply_markup=markup1)
-    ##bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
+    try:
+        token=binance_script.Start_interface(message.chat.id,message.text)
+        bot.send_message(message.chat.id, str(token.info()))
+        info=token.check()
+        bot.send_message(message.chat.id, f'Продажа: {info[0]}\nОбъём: {info[1]}\nПокупка: {info[2]}\nОбъём покупки: {info[3]}\n',parse_mode='html',reply_markup=markup1)
+    except BaseException:
+        bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
 
 
 bot.polling(none_stop=True)
