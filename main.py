@@ -12,7 +12,6 @@ btn4 = types.KeyboardButton('Стакан объём')
 def start(message):
     markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
     markup1.add(btn1, btn2, btn3, btn4)
-    bot.send_message(message.chat.id,str(message))
     bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}!', parse_mode='html',reply_markup=markup1)
 
 @bot.message_handler(content_types=['text'])
@@ -24,6 +23,8 @@ def mess(message):
         help(message)
     elif(get_message_bot == "стакан объём"):
         cup(message)
+    elif(get_message_bot == "стакан объём"):
+        start(message)
     else:
         bot.send_message(message.chat.id, 'Я не совсем Вас понимаю. Попробуйте использовать кнопки ниже')
 
@@ -35,17 +36,15 @@ def help(message):
 
 def cup(message):
     markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
-    markup1.add(btn1, btn2, btn3, btn4)
     bot.send_message(message.chat.id, "Введите название монеты", parse_mode='html')
     bot.register_next_step_handler(message, out)
 
 def out(message):
-        markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
-        markup1.add(btn1, btn2, btn3, btn4)
-        token=binance_script.Start_interface(message.chat.id,message.text)
-        bot.send_message(message.chat.id, str(token.info()))
+    try:
+        token=binance_script.Start_interface(message.text)
         bot.send_message(message.chat.id, f'Продажа: {token.check()[0]}\nОбъём: {token.check()[1]}\nПокупка: {token.check()[2]}\nОбъём покупки: {token.check()[3]}\n',parse_mode='html',reply_markup=markup1)
-        #bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
+    except BaseException:
+        bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
 
 
 bot.polling(none_stop=True)
