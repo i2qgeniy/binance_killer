@@ -30,9 +30,10 @@ def help(message):
 
 def cup(message):
     bot.send_message(message.chat.id, "Введите название монеты", parse_mode='html')
-    bot.register_next_step_handler(message)
-    token=binance_script.Start_interface(message.text)
-    bot.send_message(message.chat.id, token.check())
+    bot.register_next_step_handler(message, out)
 
+def out(message):
+    token=binance_script.Start_interface(message.text)
+    bot.send_message(message.chat.id, f'Продажа: {token.check()[0]}\nОбъём: {token.check()[1]}\nПокупка: {token.check()[2]}\nОбъём покупки: {token.check()[3]}\n')
 
 bot.polling(none_stop=True)
