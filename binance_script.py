@@ -7,7 +7,7 @@ client = Spot()
 class Start_interface():
 
 
-    def __init__(self, cryptoname):
+    def __init__(self, id, cryptoname):
         self.id = id
         self.cryptoname = cryptoname
 
@@ -20,3 +20,11 @@ class Start_interface():
         stakan_list.append(self.stakan['bids'][0][0])
         stakan_list.append(self.stakan['bids'][0][1])
         return stakan_list
+
+
+    def init_api(self, key_api, seret_api):
+        self.private_client = Spot(key = key_api, secret = seret_api)
+
+
+    def info(self):
+        return client.exchange_info(self.cryptoname)
