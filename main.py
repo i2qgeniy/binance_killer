@@ -21,6 +21,8 @@ def mess(message):
         help(message)
     elif(get_message_bot == "стакан объём"):
         cup(message)
+    elif(get_message_bot == "стакан объём"):
+        start(message)
     else:
         bot.send_message(message.chat.id, 'Я не совсем Вас понимаю. Попробуйте использовать кнопки ниже')
 
@@ -34,6 +36,8 @@ def cup(message):
 
 def out(message):
     token=binance_script.Start_interface(message.text)
-    bot.send_message(message.chat.id, f'Продажа: {token.check()[0]}\nОбъём: {token.check()[1]}\nПокупка: {token.check()[2]}\nОбъём покупки: {token.check()[3]}\n')
-
+    bot.send_message(message.chat.id, f'Продажа: {token.check()[0]}\nОбъём: {token.check()[1]}\nПокупка: {token.check()[2]}\nОбъём покупки: {token.check()[3]}\n',parse_mode='html',reply_markup=markup1)
+    btn1 = types.KeyboardButton("Назад")
+    markup1.add(btn1)
+    cup(message)
 bot.polling(none_stop=True)
