@@ -4,15 +4,17 @@ import binance_script
 
 bot=telebot.TeleBot("1597496144:AAGukHlg_wigl2YA7-JYk1Ys_0Ai6Dx8Eq8")
 btn1 = types.KeyboardButton('Новости')
-btn2 = types.KeyboardButton('Курс валют')
+btn2 = types.KeyboardButton('Крут баланса')
 btn3 = types.KeyboardButton('Помощь')
 btn4 = types.KeyboardButton('Стакан объём')
 
+user=0
 @bot.message_handler(commands=['start'])
 def start(message):
     markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3, one_time_keyboard=True)
     markup1.add(btn1, btn2, btn3, btn4)
-    bot.send_message(message.chat.id,str(message))
+    global user
+    user=binance_script.User(message.chat.id)
     bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}!', parse_mode='html',reply_markup=markup1)
 
 @bot.message_handler(content_types=['text'])
@@ -24,6 +26,8 @@ def mess(message):
         help(message)
     elif(get_message_bot == "стакан объём"):
         cup(message)
+    elif(get_message_bot == "крут баланса"):
+        crut(message)
     else:
         bot.send_message(message.chat.id, 'Я не совсем Вас понимаю. Попробуйте использовать кнопки ниже')
 
@@ -48,5 +52,17 @@ def out(message):
     except BaseException:
         bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
 
+def crut(message):
+    global user
+    if user.check_user()=='1':
+        bot.send_message(message.chat.id, 'Work')
+    else:
+        bot.send_message(message.chat.id, 'Зарегистриуйтесь, введя апи кей и секрет кей через двоеточие')
+        bot.register_next_step_handler(message, checker)
+
+
+def checker(message):
+    global user
+    user.init_api(message.text.split(':'))
 
 bot.polling(none_stop=True)

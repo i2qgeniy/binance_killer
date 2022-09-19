@@ -10,21 +10,21 @@ class User():
         self.id = id
 
 
-    def init_api(self, key_api, secret_api):
-        self.private_client = Spot(key=key_api, secret=secret_api)
-        data = {'User_id':self.id, 'Key':key_api, 'Secret':secret_api}
-        r = open('Data_base.txt', 'r')
-        for id in r['User_id']:
-            if id == self.id:
-                r.close()
-                break
-        r.close()
+    def init_api(self, key_api):
+        self.private_client = Spot(key=key_api[0], secret=key_api[1])
+        data = {'User_id': self.id, 'Key': key_api[0], 'Secret': key_api[1]}
         r = open('Data_base.txt', 'a')
         r.write(str(data))
         r.close()
 
-
-
+    def check_user(self):
+        r = open('Data_base.txt', 'r')
+        for id in r:
+            if id['User_id'] == self.id:
+                r.close()
+                return '1'
+        r.close()
+        return '0'
 class Start_interface():
 
 
