@@ -13,12 +13,13 @@ class Start_interface():
 
 
     def check(self):
-        self.stakan = client.depth(self.cryptoname, limit=10)
+        self.stakan = client.depth(self.cryptoname, limit=500)
         stakan_list = []
         stakan_list.append(self.stakan['asks'][0][0])
         stakan_list.append(self.stakan['asks'][0][1])
         stakan_list.append(self.stakan['bids'][0][0])
         stakan_list.append(self.stakan['bids'][0][1])
+        print(self.stakan)
         return stakan_list
 
 
