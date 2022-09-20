@@ -110,6 +110,25 @@ def checker(message):
     global user
     user.init_api(message.text.split(':'))
     bot.send_message('Вы успешно зарегистрировались!')
+<<<<<<< HEAD
+
+def is_default(message):
+    markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3, one_time_keyboard=True)
+    markup1.add(btn1, btn2, btn3, btn4, btn5)
+    get_message_bot = message.text.strip().lower()
+    global monet
+    print(monet.name)
+    if(get_message_bot=='по умолчанию'):
+        try:
+            token = binance_script.Start_interface(message.chat.id, monet.name)
+            info = token.get_volume(2, 200)
+            bot.send_message(message.chat.id, f'Объём продаж: {info[0]}\nОбъём покупок: {info[1]}\n', parse_mode='html', reply_markup=markup1)
+        except BaseException:
+            bot.send_message(message.chat.id, "Вы ввели неправильное название монеты")
+    else:
+        volume_default(message)
+=======
+>>>>>>> 961a0936e357b8246b5822b6042795e5c30358a8
 
 def is_default(message):
     markup1 = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=3, one_time_keyboard=True)
@@ -127,4 +146,8 @@ def is_default(message):
     else:
         volume_default(message)
 
+def test(test):
+    return test
+def test1(test1):
+    return test1
 bot.polling(none_stop=True)
