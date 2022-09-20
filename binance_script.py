@@ -1,4 +1,5 @@
 from binance.spot import Spot #as Client
+import sqlite3 as sq
 
 
 client = Spot()
@@ -17,6 +18,23 @@ class User():
         for i in data:
             r.write(str(i))
         r.close()
+        key = str(key_api[0])
+        secret = str(key_api[1])
+        user = str(self.id)
+        with sq.connect("users.db") as con:
+
+           # cur.execute("""DROP TABLE IF EXISTS users""")
+            sql = ("""INSERT INTO users (user_id, key, secret) VALUES(?,?,?)""")
+            cur = con.cursor()
+            cur.execute(sql, (user, key, secret))
+            con.commit()
+            #cur.execute("""CREATE TABLE IF NOT EXISTS users (
+            #user_id TEXT,
+            #key TEXT,
+            #secret TEXT
+            #)""")
+        print('DB update')
+
 
     def check_user(self):
         r = open('Data_base.txt', 'r')
