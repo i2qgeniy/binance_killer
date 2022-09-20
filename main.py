@@ -129,5 +129,6 @@ def is_default(message):
 
 def test(test):
     return test
-
+def test1(test1):
+    return test1
 bot.polling(none_stop=True)
