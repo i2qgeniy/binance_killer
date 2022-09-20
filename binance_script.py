@@ -13,16 +13,10 @@ class User():
 
     def init_api(self, key_api):
         self.private_client = Spot(key=key_api[0], secret=key_api[1])
-        data = [self.id, ' ', key_api[0], ' ', key_api[1], '\n']
-        r = open('Data_base.txt', 'a')
-        for i in data:
-            r.write(str(i))
-        r.close()
         key = str(key_api[0])
         secret = str(key_api[1])
         user = str(self.id)
         with sq.connect("users.db") as con:
-
            # cur.execute("""DROP TABLE IF EXISTS users""")
             sql = ("""INSERT INTO users (user_id, key, secret) VALUES(?,?,?)""")
             cur = con.cursor()
@@ -37,22 +31,14 @@ class User():
 
 
     def check_user(self):
-        r = open('Data_base.txt', 'r')
-        b=2
-        for id in r:
-            i = 0
-            user_id = ''
-            while i < len(id):
-                user_id += id[i]
-                if id[i] == ' ':
-                    print(str(user_id))
-                    print(str(self.id))
-                    if int(user_id) == int(self.id):
-                        print('afa')
-                        return '1'
-                    i = len(id)
-                i+=1
-        r.close()
+        with sq.connect("users.db") as con:
+            cur = con.cursor()
+            cur.execute("SELECT * FROM users")
+            for id in cur:
+                if int(id[0])==int(self.id):
+                    print('id совпало')
+                    return '1'
+        print('id не совпало')
         return '0'
 class Start_interface():
 
