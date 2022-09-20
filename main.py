@@ -127,4 +127,7 @@ def is_default(message):
     else:
         volume_default(message)
 
+def test(test):
+    return test
+
 bot.polling(none_stop=True)
