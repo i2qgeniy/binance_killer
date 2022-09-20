@@ -65,3 +65,38 @@ class Start_interface():
 
     def info(self):
         return client.exchange_info(self.cryptoname)
+
+
+    def get_volume(self, bids_or_asks='bids', lim=100):
+        '''
+        возвращает объем стакана взависимости от параметра
+        :param bids_or_asks:
+        :param lim:
+        :return:
+        '''
+        self.depth_btc = client.depth(self.cryptoname, limit=lim)
+        if str(bids_or_asks) == '2':
+            m = len(self.depth_btc['bids'])
+            n = len(self.depth_btc['asks'])
+            i = 0
+            summ = 0
+            ans = []
+            while i < m:
+                summ += float(self.depth_btc['bids'][i][1])
+                i += 1
+            ans.append(int(summ))
+            i = 0
+            summ = 0
+            while i < n:
+                summ += float(self.depth_btc['asks'][i][1])
+                i += 1
+            ans.append(int(summ))
+            return ans
+        else:
+            m = len(self.depth_btc[bids_or_asks])
+            i = 0
+            summ = 0
+            while i < m:
+                summ += float(self.depth_btc[bids_or_asks][i][1])
+                i += 1
+            return summ
