@@ -12,17 +12,28 @@ class User():
 
     def init_api(self, key_api):
         self.private_client = Spot(key=key_api[0], secret=key_api[1])
-        data = {'User_id': self.id, 'Key': key_api[0], 'Secret': key_api[1]}
+        data = [self.id, ' ', key_api[0], ' ', key_api[1], '\n']
         r = open('Data_base.txt', 'a')
-        r.write(str(data))
+        for i in data:
+            r.write(str(i))
         r.close()
 
     def check_user(self):
         r = open('Data_base.txt', 'r')
+        b=2
         for id in r:
-            if id['User_id'] == self.id:
-                r.close()
-                return '1'
+            i = 0
+            user_id = ''
+            while i < len(id):
+                user_id += id[i]
+                if id[i] == ' ':
+                    print(str(user_id))
+                    print(str(self.id))
+                    if int(user_id) == int(self.id):
+                        print('afa')
+                        return '1'
+                    i = len(id)
+                i+=1
         r.close()
         return '0'
 class Start_interface():
