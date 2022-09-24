@@ -1,5 +1,7 @@
-from binance.spot import Spot #as Client
+from binance.spot import Spot#as Client
 import sqlite3 as sq
+import time
+import datetime
 
 
 client = Spot()
@@ -40,6 +42,10 @@ class User():
                     return '1'
         print('id не совпало')
         return '0'
+
+
+    def user_info(self):
+        self.info = client.user_asset()
 class Start_interface():
 
 
@@ -100,3 +106,18 @@ class Start_interface():
                 summ += float(self.depth_btc[bids_or_asks][i][1])
                 i += 1
             return summ
+
+    def add_volume_graph(self, min):
+        i = 0
+        while i < min:
+            time.sleep(60)
+            asks_bids = self.get_volume('2', 5000)
+            dt = datetime.datetime.now()
+            with sq.connect("users.db") as con:
+                sql = ("""INSERT INTO volume_grafick (cryptoname, time, volume_asks, volume_bids) VALUES(?,?,?,?)""")
+                cur = con.cursor()
+                cur.execute(sql, (self.cryptoname, str(dt.strftime("%H:%M:%S")), asks_bids[1], asks_bids[0]))
+                con.commit()
+            print('DB update')
+            i+=1
+
